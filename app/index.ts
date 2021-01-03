@@ -15,6 +15,7 @@ const clockFace: GroupElement = document.getElementById("clockFace") as GroupEle
 
 // Get a handle on the <text> element
 const timeLabel: TextElement = document.getElementById("timeLabel") as TextElement;
+const dateLabel: TextElement = document.getElementById("dateLabel") as TextElement;
 
 // And the clock face arcs
 const clockArc: ArcElement = document.getElementById("clockArc") as ArcElement;
@@ -22,7 +23,7 @@ const clockArc: ArcElement = document.getElementById("clockArc") as ArcElement;
 const handArcGroup: GroupElement = document.getElementById("handArcGroup") as GroupElement;
 
 const clockTickGroup: GroupElement = document.getElementById("tickContainer") as GroupElement;
-const clockTicks: GroupElement[] = clockTickGroup.getElementsByTagName("g") as GroupElement[];
+const clockTicks: GroupElement[] = clockTickGroup.getElementsByClassName("tick") as GroupElement[];
 
 const halfTickGroup: GroupElement = document.getElementById("halfContainer") as GroupElement;
 const halfTicks: GroupElement[] = halfTickGroup.getElementsByTagName("g") as GroupElement[];
@@ -31,13 +32,35 @@ if (clockTicks.length !== 24 || halfTicks.length !== 24) {
     console.error(`Error: Clock ticks are not 24 elements (${clockTicks.length}, ${halfTicks.length})`);
 }
 
-for (let i=0; i<24; i++) {
-    clockTicks[i].groupTransform.rotate.angle = i * 15;
-    halfTicks[i].groupTransform.rotate.angle = i * 15 + 8;
+function updateClockFace() {
+    const is24hr = preferences.clockDisplay === "24h";
+
+    for (let i=0; i<24; i++) {
+        clockTicks[i].groupTransform.rotate.angle = i * 15;
+        halfTicks[i].groupTransform.rotate.angle = i * 15 + 8;
+
+        const textGroup = clockTicks[i].getElementsByClassName("tickText")[0] as GroupElement;
+        if (textGroup) {
+            textGroup.groupTransform.rotate.angle = i * -15;
+            const texts = textGroup.getElementsByTagName("text") as TextElement[];
+            texts.forEach(t => t.text = util.hoursToString((i+18) % 24, is24hr));
+        }
+    }
+}
+
+let last24hr: boolean | undefined;
+function updateDisplayPref() {
+    const is24hr = preferences.clockDisplay === "24h";
+    if (is24hr !== last24hr) {
+        last24hr = is24hr;
+        updateClockFace();
+    }
 }
 
 // Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
+    updateDisplayPref();
+
     const today = evt.date;
     // const hours = today.getHours();
     const hours = today.getSeconds() * 24 / 60;
@@ -54,19 +77,14 @@ clock.ontick = (evt) => {
 
     handArcGroup.groupTransform.rotate.angle = handAngle;
 
-    console.log(`arc ${clockArc.startAngle} to ${clockArc.sweepAngle}`);
-
     // Update the time.
-    let hoursString: string;
-    if (preferences.clockDisplay === "12h") {
-        // 12h format
-        hoursString = "" + (hours % 12 || 12);
-    } else {
-        // 24h format
-        hoursString = util.zeroPad(hours);
-    }
-    let mins = util.zeroPad(today.getMinutes());
-    timeLabel.text = `${hours}:${mins}`;
-}
+    const hoursString = util.hoursToString(hours, last24hr);
+    const minsString = util.zeroPad(today.getMinutes());
+    timeLabel.text = `${hoursString}:${minsString}`;
 
-// console.log('Hello world!');
+    // Update the date.
+    const monthIndex = today.getMonth();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const dayString = `${today.getDate()}`;
+    dateLabel.text = `${monthNames[monthIndex]} ${dayString}`;
+}
