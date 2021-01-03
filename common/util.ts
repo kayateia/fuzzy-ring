@@ -21,12 +21,25 @@ export function limitDegrees(value: number): number {
     return limit(value, 360);
 }
 
-export function hoursToString(hours: number, is24hr: boolean): string {
+export function hoursToFaceString(hours: number, is24hr: boolean): string {
     if (!is24hr) {
-        // 12h format
-        return `${hours % 12 || 12}`;
+        const hourString =`${Math.floor(hours % 12 || 12)}`;
+        const evening = hours >= 12 ? 'p' : 'a';
+        return `${hourString}${evening}`;
     } else {
-        // 24h format
         return zeroPad(hours);
     }
+}
+
+export function hoursToString(hours: number, is24hr: boolean): string {
+    if (!is24hr) {
+        return `${Math.floor(hours) % 12 || 12}`;
+    } else {
+        return zeroPad(hours);
+    }
+}
+
+const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export function getMonthName(monthIndex: number): string {
+    return monthNames[monthIndex];
 }

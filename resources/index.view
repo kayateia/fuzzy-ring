@@ -56,13 +56,13 @@
               <text x="1" y="8"
                     font-family="System-Regular" fill="#202020"
                     font-size="14" font-weight="bold"
-                    text-width="2"
-                    text-anchor="middle">12</text>
+                    text-length="3"
+                    text-anchor="middle">12a</text>
               <text x="0" y="7"
                     font-family="System-Regular" fill="#d0d0d0"
                     font-size="14" font-weight="bold"
-                    text-width="2"
-                    text-anchor="middle">12</text>
+                    text-length="3"
+                    text-anchor="middle">12a</text>
             </g>
           </g>
 

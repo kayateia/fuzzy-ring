@@ -43,7 +43,7 @@ function updateClockFace() {
         if (textGroup) {
             textGroup.groupTransform.rotate.angle = i * -15;
             const texts = textGroup.getElementsByTagName("text") as TextElement[];
-            texts.forEach(t => t.text = util.hoursToString((i+18) % 24, is24hr));
+            texts.forEach(t => t.text = util.hoursToFaceString((i+18) % 24, is24hr));
         }
     }
 }
@@ -80,11 +80,18 @@ clock.ontick = (evt) => {
     // Update the time.
     const hoursString = util.hoursToString(hours, last24hr);
     const minsString = util.zeroPad(today.getMinutes());
-    timeLabel.text = `${hoursString}:${minsString}`;
+    let timeText = `${hoursString}:${minsString}`;
+    if (!last24hr) {
+        if (hours < 12) {
+            timeText += 'a';
+        } else {
+            timeText += 'p';
+        }
+    }
+    timeLabel.text = timeText;
 
     // Update the date.
     const monthIndex = today.getMonth();
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const dayString = `${today.getDate()}`;
-    dateLabel.text = `${monthNames[monthIndex]} ${dayString}`;
+    dateLabel.text = `${util.getMonthName(monthIndex)} ${dayString}`;
 }
