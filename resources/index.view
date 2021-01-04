@@ -1,163 +1,166 @@
 <svg id="root" class="background">
-  <g id="clockFace">
+  <g id="clockFaceTranslate" transform="translate(50%, 50%)">
+    <g id="clockFaceScale">
+      <g transform="translate(-50%, -50%)">
 
-    <mask id="clockArcMask">
-      <arc id="clockArc" x="20" y="20" width="100%-40" height="100%-40"
-        arc-width="24" start-angle="0" sweep-angle="336" />
-    </mask>
-    <mask id="clockArcBgMask">
-      <arc x="20" y="20" width="100%-40" height="100%-40"
-        arc-width="24" start-angle="0" sweep-angle="360" />
-    </mask>
+        <mask id="clockArcMask">
+          <arc id="clockArc" x="20" y="20" width="100%-40" height="100%-40"
+            arc-width="24" start-angle="0" sweep-angle="336" />
+        </mask>
+        <mask id="clockArcBgMask">
+          <arc x="20" y="20" width="100%-40" height="100%-40"
+            arc-width="24" start-angle="0" sweep-angle="360" />
+        </mask>
 
-    <mask id="handArcMask">
-      <g transform="translate(50%, 50%)">
-        <g id="handArcGroup" transform="rotate(0)">
-          <line x1="50%-75" y1="-10" x2="50%-40" y2="0" stroke-width="2" />
-          <line x1="50%-40" y1="0" x2="50%-75" y2="10" stroke-width="2" />
-          <line x1="50%-75" y1="10" x2="50%-75" y2="-10" stroke-width="2" />
-        </g>
-      </g>
-    </mask>
-
-    <svg mask="#clockArcBgMask" width="100%" height="100%">
-      <g transform="translate(50%, 50%)">
-        <g transform="rotate(45)">
-          <gradientRect x="-60%" y="-60%" width="120%" height="120%" fill="#20f5ff"
-            gradient-type="bilinear"
-            gradient-x1="20%" gradient-y1="20%"
-            gradient-x2="60%" gradient-y2="60%"
-            gradient-color2="#ffd556"
-            gradient-color3="#f5628f"
-            gradient-color4="#392a58" />
-        </g>
-      </g>
-    </svg>
-
-    <svg mask="#handArcMask" width="100%" height="100%">
-      <g transform="translate(50%, 50%)">
-        <g transform="rotate(45)">
-          <gradientRect x="-60%" y="-60%" width="120%" height="120%" fill="#40ffff"
-            gradient-type="bilinear"
-            gradient-x1="20%" gradient-y1="20%"
-            gradient-x2="60%" gradient-y2="60%"
-            gradient-color2="#fff576"
-            gradient-color3="#ff82af"
-            gradient-color4="#594a78" />
-        </g>
-      </g>
-    </svg>
-
-    <defs>
-      <symbol id="tickLine">
-        <g class="tick" transform="rotate(0)">
-          <g transform="translate(50%-60, 0)">
-            <g class="tickText" transform="rotate(0)">
-              <text x="1" y="8"
-                    font-family="System-Regular" fill="#202020"
-                    font-size="14" font-weight="bold"
-                    text-length="3"
-                    text-anchor="middle">12a</text>
-              <text x="0" y="7"
-                    font-family="System-Regular" fill="#d0d0d0"
-                    font-size="14" font-weight="bold"
-                    text-length="3"
-                    text-anchor="middle">12a</text>
+        <mask id="handArcMask">
+          <g transform="translate(50%, 50%)">
+            <g id="handArcGroup" transform="rotate(0)">
+              <line x1="50%-75" y1="-10" x2="50%-40" y2="0" stroke-width="2" />
+              <line x1="50%-40" y1="0" x2="50%-75" y2="10" stroke-width="2" />
+              <line x1="50%-75" y1="10" x2="50%-75" y2="-10" stroke-width="2" />
             </g>
           </g>
+        </mask>
 
-          <line x1="50%-50" y1="-1" x2="50%-30" y2="-1" fill="#202020" stroke-width="1" />
-          <line x1="50%-50" y1="0" x2="50%-30" y2="0" fill="white" stroke-width="1" />
-          <line x1="50%-50" y1="1" x2="50%-30" y2="1" fill="#202020" stroke-width="1" />
-        </g>
-      </symbol>
-      <symbol id="halfLine">
-        <g transform="rotate(0)">
-          <line x1="50%-40" y1="-1" x2="50%-30" y2="-1" fill="#202020" stroke-width="1" />
-          <line x1="50%-40" y1="0" x2="50%-30" y2="0" fill="#c0c0c0" stroke-width="1" />
-          <line x1="50%-40" y1="1" x2="50%-30" y2="1" fill="#202020" stroke-width="1" />
-        </g>
-      </symbol>
-    </defs>
+        <svg mask="#clockArcBgMask" width="100%" height="100%">
+          <g transform="translate(50%, 50%)">
+            <g transform="rotate(45)">
+              <gradientRect x="-60%" y="-60%" width="120%" height="120%" fill="#20f5ff"
+                gradient-type="bilinear"
+                gradient-x1="20%" gradient-y1="20%"
+                gradient-x2="60%" gradient-y2="60%"
+                gradient-color2="#ffd556"
+                gradient-color3="#f5628f"
+                gradient-color4="#392a58" />
+            </g>
+          </g>
+        </svg>
 
-    <svg width="100%" height="100%">
-      <g id="tickContainer" transform="translate(50%, 50%)">
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
+        <svg mask="#handArcMask" width="100%" height="100%">
+          <g transform="translate(50%, 50%)">
+            <g transform="rotate(45)">
+              <gradientRect x="-60%" y="-60%" width="120%" height="120%" fill="#40ffff"
+                gradient-type="bilinear"
+                gradient-x1="20%" gradient-y1="20%"
+                gradient-x2="60%" gradient-y2="60%"
+                gradient-color2="#fff576"
+                gradient-color3="#ff82af"
+                gradient-color4="#594a78" />
+            </g>
+          </g>
+        </svg>
 
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
+        <defs>
+          <symbol id="tickLine">
+            <g class="tick" transform="rotate(0)">
+              <g transform="translate(50%-60, 0)">
+                <g class="tickText" transform="rotate(0)">
+                  <text x="1" y="8"
+                        font-family="System-Regular" fill="#202020"
+                        font-size="14" font-weight="bold"
+                        text-length="3"
+                        text-anchor="middle">12a</text>
+                  <text x="0" y="7"
+                        font-family="System-Regular" fill="#d0d0d0"
+                        font-size="14" font-weight="bold"
+                        text-length="3"
+                        text-anchor="middle">12a</text>
+                </g>
+              </g>
 
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
+              <line x1="50%-50" y1="-1" x2="50%-30" y2="-1" fill="#202020" stroke-width="1" />
+              <line x1="50%-50" y1="0" x2="50%-30" y2="0" fill="white" stroke-width="1" />
+              <line x1="50%-50" y1="1" x2="50%-30" y2="1" fill="#202020" stroke-width="1" />
+            </g>
+          </symbol>
+          <symbol id="halfLine">
+            <g transform="rotate(0)">
+              <line x1="50%-40" y1="-1" x2="50%-30" y2="-1" fill="#202020" stroke-width="1" />
+              <line x1="50%-40" y1="0" x2="50%-30" y2="0" fill="#c0c0c0" stroke-width="1" />
+              <line x1="50%-40" y1="1" x2="50%-30" y2="1" fill="#202020" stroke-width="1" />
+            </g>
+          </symbol>
+        </defs>
 
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
-        <use href="#tickLine" />
+        <svg width="100%" height="100%">
+          <g id="tickContainer" transform="translate(50%, 50%)">
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+            <use href="#tickLine" />
+          </g>
+        </svg>
+
+        <svg width="100%" height="100%">
+          <g id="halfContainer" transform="translate(50%, 50%)">
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+            <use href="#halfLine" />
+          </g>
+        </svg>
+
+        <svg mask="#clockArcMask" width="100%" height="100%">
+          <g transform="translate(50%, 50%)">
+            <g transform="rotate(45)">
+              <gradientRect x="-60%" y="-60%" width="120%" height="120%" fill="#00d5ff"
+                gradient-type="bilinear"
+                gradient-x1="20%" gradient-y1="20%"
+                gradient-x2="60%" gradient-y2="60%"
+                gradient-color2="#ffb536"
+                gradient-color3="#f5426f"
+                gradient-color4="#190a38" />
+            </g>
+          </g>
+        </svg>
       </g>
-    </svg>
-
-    <svg width="100%" height="100%">
-      <g id="halfContainer" transform="translate(50%, 50%)">
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-        <use href="#halfLine" />
-      </g>
-    </svg>
-
-    <svg mask="#clockArcMask" width="100%" height="100%">
-      <g transform="translate(50%, 50%)">
-        <g transform="rotate(45)">
-          <gradientRect x="-60%" y="-60%" width="120%" height="120%" fill="#00d5ff"
-            gradient-type="bilinear"
-            gradient-x1="20%" gradient-y1="20%"
-            gradient-x2="60%" gradient-y2="60%"
-            gradient-color2="#ffb536"
-            gradient-color3="#f5426f"
-            gradient-color4="#190a38" />
-        </g>
-      </g>
-    </svg>
-
+    </g>
   </g>
 
   <text id="timeLabel"

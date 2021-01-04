@@ -4,29 +4,30 @@ import { preferences } from "user-settings";
 import * as util from "../common/util";
 
 // Update the clock every minute
-// clock.granularity = "minutes";
-clock.granularity = "seconds";
+clock.granularity = "minutes";
+// clock.granularity = "seconds";
 
 const root: any = document.getElementById("root");
 
 console.log(root.width, root.height);
 
-const clockFace: GroupElement = document.getElementById("clockFace") as GroupElement;
-
 // Get a handle on the <text> element
-const timeLabel: TextElement = document.getElementById("timeLabel") as TextElement;
-const dateLabel: TextElement = document.getElementById("dateLabel") as TextElement;
+const timeLabel = document.getElementById("timeLabel") as TextElement;
+const dateLabel = document.getElementById("dateLabel") as TextElement;
 
 // And the clock face arcs
-const clockArc: ArcElement = document.getElementById("clockArc") as ArcElement;
+const clockArc = document.getElementById("clockArc") as ArcElement;
 
-const handArcGroup: GroupElement = document.getElementById("handArcGroup") as GroupElement;
+const handArcGroup = document.getElementById("handArcGroup") as GroupElement;
 
-const clockTickGroup: GroupElement = document.getElementById("tickContainer") as GroupElement;
-const clockTicks: GroupElement[] = clockTickGroup.getElementsByClassName("tick") as GroupElement[];
+const clockTickGroup = document.getElementById("tickContainer") as GroupElement;
+const clockTicks = clockTickGroup.getElementsByClassName("tick") as GroupElement[];
 
-const halfTickGroup: GroupElement = document.getElementById("halfContainer") as GroupElement;
-const halfTicks: GroupElement[] = halfTickGroup.getElementsByTagName("g") as GroupElement[];
+const halfTickGroup = document.getElementById("halfContainer") as GroupElement;
+const halfTicks = halfTickGroup.getElementsByTagName("g") as GroupElement[];
+
+const clockFaceTranslate = document.getElementById("clockFaceTranslate") as GroupElement;
+const clockFaceScale = document.getElementById("clockFaceScale") as GroupElement;
 
 if (clockTicks.length !== 24 || halfTicks.length !== 24) {
     console.error(`Error: Clock ticks are not 24 elements (${clockTicks.length}, ${halfTicks.length})`);
@@ -57,13 +58,9 @@ function updateDisplayPref() {
     }
 }
 
-// Update the <text> element every tick with the current time
-clock.ontick = (evt) => {
-    updateDisplayPref();
-
-    const today = evt.date;
-    // const hours = today.getHours();
-    const hours = today.getSeconds() * 24 / 60;
+function updateClockHands(today: Date) {
+    const hours = today.getHours() + today.getMinutes() / 60.0;
+    // const hours = today.getSeconds() * 24 / 60;
 
     // Update the clock arc. The whole thing is already rotated 45 degrees,
     // so only add 45 to base it on the bottom.
@@ -76,6 +73,46 @@ clock.ontick = (evt) => {
     handAngle = util.limitDegrees(handAngle);
 
     handArcGroup.groupTransform.rotate.angle = handAngle;
+}
+
+function updateZoom(today: Date) {
+    // const hours = today.getHours();
+    const hours = today.getSeconds() * 24 / 60;
+    const handAngle = util.limitDegrees((hours * 360.0 / 24.0) + 90.0);
+    const angle = handAngle * Math.PI * 2.0 / 360.0;
+    const radius = root.width / 2.0;
+    const cx = radius * Math.cos(angle);
+    const cy = radius * Math.sin(angle);
+
+    // Use a fixed zoom for now, say 1.75x.
+    const zoom = 2.5;
+    const viewSize = root.width / zoom;
+
+    // We want to position the viewport so it's off to a side,
+    // as close to centring the hand arrow as possible, but also not
+    // introducing blank space outside the watch face paint area.
+    clockFaceScale.groupTransform.scale.x = zoom;
+    clockFaceScale.groupTransform.scale.y = zoom;
+
+    const viewRadius = viewSize / 2.0;
+    let tx = cx, ty = cy;
+
+    /*if ((tx - viewRadius) < -radius) tx = -viewRadius;
+    if ((tx + viewRadius) > radius) tx = viewRadius;
+    if ((ty - viewRadius) < -radius) ty = -viewRadius;
+    if ((ty + viewRadius) > radius) ty = viewRadius;*/
+
+    const vars = {
+        hours, handAngle, angle, radius, cx, cy, zoom, viewSize, tx, ty
+    };
+    console.log(JSON.stringify(vars, null, 4));
+
+    clockFaceTranslate.groupTransform.translate.x = -tx + radius;
+    clockFaceTranslate.groupTransform.translate.y = -ty + radius;
+}
+
+function updateTime(today: Date) {
+    const hours = today.getHours();
 
     // Update the time.
     const hoursString = util.hoursToString(hours, last24hr);
@@ -94,4 +131,14 @@ clock.ontick = (evt) => {
     const monthIndex = today.getMonth();
     const dayString = `${today.getDate()}`;
     dateLabel.text = `${util.getMonthName(monthIndex)} ${dayString}`;
+}
+
+// Update the <text> element every tick with the current time
+clock.ontick = (evt) => {
+    const today = evt.date;
+
+    updateDisplayPref();
+    updateClockHands(today);
+    updateTime(today);
+    // updateZoom(today);
 }
